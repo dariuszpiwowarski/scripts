@@ -1,0 +1,31 @@
+#!/bin/bash
+EXTERNAL_OUTPUT="DP2"
+INTERNAL_OUTPUT="LVDS1"
+DISPLAY_ON_BOTH=$1
+WALLPAPER=$(cat /tmp/current_wallpaper)
+
+if [ ! -z $DISPLAY_ON_BOTH ]
+then
+        # xrandr --output $INTERNAL_OUTPUT --scale 0.666666667x0.666666667 --output $EXTERNAL_OUTPUT --auto --right-of $INTERNAL_OUTPUT
+	xrandr --output $INTERNAL_OUTPUT --output $EXTERNAL_OUTPUT --auto --right-of $INTERNAL_OUTPUT
+	feh --bg-fill $WALLPAPER 
+	exit
+fi
+# if we don't have a file, start at zero
+if [ ! -f "/tmp/monitor_mode.dat" ] ; then
+  monitor_mode="INTERNAL"
+
+# otherwise read the value from the file
+else
+  monitor_mode=`cat /tmp/monitor_mode.dat`
+fi
+
+if [ $monitor_mode = "INTERNAL" ]; then
+        monitor_mode="EXTERNAL"
+        xrandr --output $INTERNAL_OUTPUT --off --output $EXTERNAL_OUTPUT --auto
+else
+        monitor_mode="INTERNAL"
+        xrandr --output $INTERNAL_OUTPUT --auto --output $EXTERNAL_OUTPUT --off
+fi
+echo "${monitor_mode}" > /tmp/monitor_mode.dat
+feh --bg-fill $WALLPAPER 

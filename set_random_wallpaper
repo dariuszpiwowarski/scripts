@@ -1,0 +1,2 @@
+#!/bin/bash
+find /home/dpiwowarski/Pictures -type f -name "*jpg"|sort -R|head -n 1|tee /tmp/current_wallpaper|xargs -I {} feh --bg-fill {}
