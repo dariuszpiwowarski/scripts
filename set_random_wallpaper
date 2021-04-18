@@ -1,2 +1,2 @@
 #!/bin/bash
-find /home/dpiwowarski/Pictures -type f -name "*jpg"|sort -R|head -n 1|tee /tmp/current_wallpaper|xargs -I {} feh --bg-fill {}
+find $HOME/Pictures -type f \( -iname \*.jpg -o -iname \*.png \)|sort -R|head -n 1|tee /tmp/current_wallpaper|xargs -I {} feh --bg-fill {}
